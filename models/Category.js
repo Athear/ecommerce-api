@@ -1,5 +1,5 @@
 const { Model, DataTypes } = require('sequelize');
-const { notILike } = require('sequelize/types/lib/operators');
+//const { notILike } = require('sequelize/types/lib/operators');
 
 const sequelize = require('../config/connection.js');
 
