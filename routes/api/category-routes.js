@@ -48,8 +48,31 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
-  // update a category by its `id` value
+router.put('/:id', async (req, res) => {
+  try{
+    if(req.body.category_name){
+      const updateStatus = await Category.update(
+        {
+          category_name:req.body.category_name
+        },
+        {
+          where:{
+            id:req.params.id
+          }
+        }
+      );
+      if(updateStatus>0){
+        res.status(200).json(`Category name updated to ${req.body.category_name}`);  
+      }else{
+        res.status(406).json(`Category ${req.params.id} does not exist or was already named ${req.body.category_name}`);  
+      }    
+    }else{
+      res.status(400).json("category_name must be specified")
+    }
+  }
+  catch(err){
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', (req, res) => {
