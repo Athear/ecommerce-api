@@ -2,6 +2,7 @@ const router = require('express').Router();
 const { Category, Product } = require('../../models');
 
 // The `/api/categories` endpoint
+//TODO: Have PUT and DELETE routes include name of affected objects
 
 router.get('/', async (req, res) => {
   try{
