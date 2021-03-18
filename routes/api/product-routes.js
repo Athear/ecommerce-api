@@ -3,10 +3,21 @@ const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
+//TODO: Product is returning product_id twice.
+
 // get all products
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
+  try{
+    const categories = await Product.findAll({
+      // include:[Category,Tag]
+    });
+    res.status(200).json(categories);
+    }
+    catch(err){
+      res.status(500).json(err);
+    }
 });
 
 // get one product
