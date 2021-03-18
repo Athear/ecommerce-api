@@ -13,7 +13,18 @@ router.get('/', async (req, res) => {
   }
 });
 
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
+  try{
+    const category = await Category.findByPk(req.params.id);
+    if(category){
+      res.status(200).json(category);  
+    }else{
+      res.status(404).json(`No category with ID ${req.params.id} found`);  
+    }    
+  }
+  catch(err){
+    res.status(500).json(err);
+  }
   // find one category by its `id` value
   // be sure to include its associated Products
 });
