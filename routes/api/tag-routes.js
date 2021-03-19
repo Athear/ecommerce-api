@@ -52,8 +52,32 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.put('/:id', (req, res) => {
+router.put('/:id', async (req, res) => {
   // update a tag's name by its `id` value
+  try{
+    if(req.body.tag_name){
+      const updateStatus = await Tag.update(
+        {
+          tag_name:req.body.tag_name
+        },
+        {
+          where:{
+            id:req.params.id
+          }
+        }
+      );
+      if(updateStatus>0){
+        res.status(200).json(`Tag name updated to ${req.body.tag_name}`);  
+      }else{
+        res.status(406).json(`Tag ${req.params.id} does not exist or was already named ${req.body.tag_name}`);  
+      }    
+    }else{
+      res.status(400).json("tag_name must be specified")
+    }
+  }
+  catch(err){
+    res.status(500).json(err);
+  }
 });
 
 router.delete('/:id', (req, res) => {
